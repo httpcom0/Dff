@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProSuite - المنصة الذكية للأدوات الشاملة والإنتاجية</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0d14;
+            --bg-secondary: #121824;
+            --bg-card: rgba(23, 31, 46, 0.7);
+            --bg-card-hover: rgba(30, 41, 59, 0.9);
+            --accent-cyan: #00f2fe;
+            --accent-blue: #4facfe;
+            --accent-purple: #7f00ff;
+            --accent-pink: #e100ff;
+            --accent-green: #00ff87;
+            --accent-orange: #ff9900;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --glass-glow: 0 8px 32px 0 rgba(0, 242, 254, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(127, 0, 255, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 242, 254, 0.12) 0%, transparent 40%);
+        }
+
+        /* Header / Navbar */
+        header {
+            background: rgba(18, 24, 36, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--accent-cyan);
+            -webkit-text-fill-color: initial;
+        }
+
+        .search-bar {
+            position: relative;
+            width: 320px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.6rem 2.5rem 0.6rem 1rem;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+        }
+
+        .search-bar i {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        /* Container & Navigation Tabs */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 0.8rem 1.4rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover, .tab-btn.active {
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(127, 0, 255, 0.2));
+            border-color: var(--accent-cyan);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: var(--glass-glow);
+        }
+
+        /* Tools Grid Layout */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tool-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .tool-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #fff;
+        }
+
+        .tool-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .tool-desc {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            margin-bottom: 1.2rem;
+            line-height: 1.5;
+        }
+
+        .tool-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Form elements inside tools */
+        input[type="text"], input[type="number"], textarea, select {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: #fff;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--accent-cyan);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-cyan));
+            color: #000;
+            font-weight: 700;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.4);
+        }
+
+        .result-box {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 10px;
+            border: 1px dashed var(--border-color);
+            word-break: break-all;
+        }
+
+        /* Canvas / Preview Container */
+        .image-preview-container {
+            width: 100%;
+            max-height: 200px;
+            overflow: hidden;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .image-preview-container img {
+            max-width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+        }
+
+        /* Audio Visualizer & Pomodoro Extra Styling */
+        .timer-display {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            color: var(--accent-cyan);
+            margin: 1rem 0;
+            letter-spacing: 2px;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.6rem 0.8rem;
+            border-radius: 6px;
+            margin-bottom: 6px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 1.5rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .search-bar {
+                width: 100%;
+            }
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>ProSuite</span>
+        </div>
+        <div class="search-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="ابحث عن أداة (مثال: QR, صور, كلمات المرور)..." onkeyup="filterTools()">
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <div class="container">
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('all', this)"><i class="fa-solid fa-grid-2"></i> الكل</button>
+            <button class="tab-btn" onclick="switchTab('media', this)"><i class="fa-solid fa-image"></i> الوسائط والصور</button>
+            <button class="tab-btn" onclick="switchTab('text', this)"><i class="fa-solid fa-file-lines"></i> النصوص والملفات</button>
+            <button class="tab-btn" onclick="switchTab('productivity', this)"><i class="fa-solid fa-clock"></i> الإنتاجية والتركيز</button>
+            <button class="tab-btn" onclick="switchTab('utility', this)"><i class="fa-solid fa-calculator"></i> الحاسبات والأدوات</button>
+            <button class="tab-btn" onclick="switchTab('dev', this)"><i class="fa-solid fa-code"></i> المطور والتشفير</button>
+        </div>
+
+        <!-- Grid of Tools -->
+        <div class="tools-grid" id="toolsGrid">
+
+            <!-- Tool 1: Image Filter & Editor -->
+            <div class="tool-card" data-category="media" data-title="محرر وفلاتر الصور">
+                <div class="tool-header">
+                    <div class="tool-icon"><i class="fa-solid fa-sliders"></i></div>
+                    <div>
+                        <div class="tool-title">محرر وفلاتر الصور</div>
+                        <div class="tool-desc">تعديل وإضافة فلاتر سريعة للصور مباشرة</div>
+                    </div>
+                </div>
+                <div class="tool-body">
+                    <input type="file" id="imgUpload" accept="image/*" onchange="loadEditorImage(event)">
+                    <div class="image-preview-container">
+                        <img id="editorImagePreview" src="" alt="المعاينة ستظهر هنا" style="display:none;">
+                    </div>
+                    <label>السطوع: <input type="range" id="brightnessSlider" min="0" max="200" value="100" oninput="applyFilters()"></label>
+                    <label>التباين: <input type="range" id="contrastSlider" min="0" max="200" value="100" oninput="applyFilters()"></label>
+                    <label>التدرج الرمادي: <input type="range" id="grayscaleSlider" min="0" max="100" value="0" oninput="applyFilters()"></label>
+                </div>
+            </div>
+
+            <!-- Tool 2: QR Code Generator -->
+            <div class="tool-card" data-category="utility" data-title="مولد QR Code">
+                <div class="tool-header">
+                    <div class="tool-icon"><i class="fa-solid fa-qrcode"></i></div>
+                    <div>
+                        <div class="tool-title">مولد رموز QR</div>
+                        <div class="tool-desc">توليد أكواد الاستجابة السريعة لأي رابط أو نص</div>
+                    </div>
+                </div>
+                <div class="tool-body">
+                    <input type="text" id="qrInput" placeholder="أدخل الرابط أو النص هنا...">
+                    <button class="btn" onclick="generateQR()"><i class="fa-solid fa-gear"></i> إنشاء الرمز</button>
+                    <div class="result-box" style="display:flex; justify-content:center;" id="qrResult"></div>
+                </div>
+            </div>
+
+            <!-- Tool 3: Text to Speech (TTS) -->
+            <div class="tool-card" data-category="text" data-title="تحويل النص إلى صوت">
+                <div class="tool-header">
+                    <div class="tool-icon"><i class="fa-solid fa-volume-high"></i></div>
+                    <div>
+                        <div class="tool-title">تحويل النص إلى صوت</div>
+                        <div class="tool-desc">استمع إلى النصوص المكتوبة باللغة العربية والإنجليزية</div>
+                    </div>
+                </div>
+                <div class="tool-body">
+                    <textarea id="ttsText" rows="3" placeholder="أدخل النص الذي تريد تحويله لمقطع صوتي..."></textarea>
+                    <button class="btn" onclick="speakText()"><i class="fa-solid fa-play"></i> تشغيل الصوت</button>
+                </div>
+            </div>
+
+            <!-- Tool 4: Pomodoro Timer -->
+            <div class="tool-card" data-category="productivity" data-title="مؤقت بومودورو للتركيز">
+                <div class="tool-header">
+                    <div class="tool-icon"><i class="fa-solid fa-stopwatch"></i></div>
+                    <div>
+                        <div class="tool-title">مؤقت بومودورو للتركيز</div>
+                        <div class="tool-desc">نظام إدارة الوقت لجلسات الدراسة والعمل</div>
+                    </div>
+                </div>
+                <div class="tool-body">
+                    <div class="timer-display" id="pomodoroTimer">25:00</div>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn" style="flex:1;" onclick="startPomodoro()"><i class="fa-solid fa-play"></i> بدأ</button>
+                        <button class="btn" style="flex:1; background: #ff4757; color:#fff;" onclick="resetPomodoro()"><i class="fa-solid fa-rotate-left"></i> إعادة</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tool 5: Password Generator -->
+            <div class="tool-card" data-category="utility" data-title="مولد كلمات المرور الآمنة">
+                <div class="tool-header">
+                    <div class="tool-icon"><i class="fa-solid fa-key"></i></div>
+                    <div>
+                        <div class="tool-title">مولد كلمات المرور</div>
+                        <div class="tool-desc">إنشاء كلمات سر قوية للغاية وغير قابلة للاختراق</div>
+                    </div>
+                </div>
+                <div class="tool-body">
+                    <label>طول كلمة السر: <span id="passLengthVal">16</span></label>
+                    <input type="range" id="passLength" min="8" max="32" value="16" oninput="document.getElementById('passLengthVal').innerText = this.value">
+                    <button class="btn" onclick="generatePassword()"><i class="fa-solid fa-shield-halved"></i> توليد كلمة سر</button>
+                    <div class="result-box" id="passwordResult">...</div>
+                </div>
+            </div>
+
+            <!-- Tool 6: Text Stats & Word Counter -->
+            <div class="tool-card" data-category="text" data-title="محلل وعدّاد النصوص">
+                <div class="tool-header">
+                    <div class="tool-icon"><i class="fa-solid fa-calculator"></i></div>
+                    <div>
+                        <div class="tool-title">محلل وعدّاد النصوص</div>
+                        <div class="tool-desc">حساب الكلمات، الحروف وزمن القراءة المتوقع</div>
+                    </div>
+                </div>
+                <div class="tool-body">
+                    <textarea id="statsText" rows="3" placeholder="أدخل النص هنا للتحليل الحيل..." oninput="analyzeText()"></textarea>
+                    <div class="result-box" id="statsResult">
+                        عدد الكلمات: 0 | الحروف: 0 | زمن القراءة: 0 دقيقة
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tool 7: Interactive To-Do List -->
+            <div class="tool-card" data-category="productivity" data-title="قائمة المهام اليومية">
+                <div class="tool-header">
+                    <div class="tool-icon"><i class="fa-solid fa-list-check"></i></div>
+                    <div>
+                        <div class="tool-title">قائمة المهام اليومية</div>
+                        <div class="tool-desc">إدارة وتنظيم مهامك بمرونة عالية</div>
+                    </div>
+                </div>
+                <div class="tool-body">
+                    <div style="display:flex; gap:8px;">
+                        <input type="text" id="todoInput" placeholder="أضف مهمة جديدة...">
+                        <button class="btn" onclick="addTodo()"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <div id="todoList" style="margin-top:10px; max-height:150px; overflow-y:auto;"></div>
+                </div>
+            </div>
+
+            <!-- Tool 8: Base64 Encoder / Decoder -->
+            <div class="tool-card" data-category="dev" data-title="مشفّر Base64">
+                <div class="tool-header">
+                    <div class="tool-icon"><i class="fa-solid fa-lock"></i></div>
+                    <div>
+                        <div class="tool-title">تشفير / فك تشفير Base64</div>
+                        <div class="tool-desc">تحويل النصوص من وإلى صيغ التشفير القياسية Base64</div>
+                    </div>
+                </div>
+                <div class="tool-body">
+                    <textarea id="base64Input" rows="2" placeholder="أدخل النص هنا..."></textarea>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn" style="flex:1;" onclick="encodeBase64()">تشفير</button>
+                        <button class="btn" style="flex:1;" onclick="decodeBase64()">فك التشفير</button>
+                    </div>
+                    <div class="result-box" id="base64Result">...</div>
+                </div>
+            </div>
+
+            <!-- Tool 9: Color Palette Generator -->
+            <div class="tool-card" data-category="media" data-title="مولد لوحة الألوان">
+                <div class="tool-header">
+                    <div class="tool-icon"><i class="fa-solid fa-palette"></i></div>
+                    <div>
+                        <div class="tool-title">مولد لوحة الألوان متناسقة</div>
+                        <div class="tool-desc">استخراج وتوليد درجات ألوان متناسقة للتصميم</div>
+                    </div>
+                </div>
+                <div class="tool-body">
+                    <button class="btn" onclick="generatePalette()"><i class="fa-solid fa-rotate"></i> توليد لوحة جديدة</button>
+                    <div id="paletteDisplay" style="display:flex; height:60px; border-radius:8px; overflow:hidden; margin-top:10px;"></div>
+                </div>
+            </div>
+
+            <!-- Tool 10: BMI Calculator -->
+            <div class="tool-card" data-category="utility" data-title="حاسبة كتلة الجسم (BMI)">
+                <div class="tool-header">
+                    <div class="tool-icon"><i class="fa-solid fa-weight-scale"></i></div>
+                    <div>
+                        <div class="tool-title">حاسبة كتلة الجسم (BMI)</div>
+                        <div class="tool-desc">حساب المؤشر الصحي لكتلة الجسم وسعراتك</div>
+                    </div>
+                </div>
+                <div class="tool-body">
+                    <div style="display:flex; gap:8px;">
+                        <input type="number" id="bmiWeight" placeholder="الوزن (كجم)">
+                        <input type="number" id="bmiHeight" placeholder="الطول (سم)">
+                    </div>
+                    <button class="btn" onclick="calculateBMI()"><i class="fa-solid fa-calculator"></i> احسب الآن</button>
+                    <div class="result-box" id="bmiResult">أدخل بياناتك للحساب</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2026 - منصة ProSuite الذكية للاستخدام اليومي والإنتاجية</p>
+    </footer>
+
+    <!-- JavaScript Core Logic -->
+    <script>
+        // Tab Filtering Functionality
+        function switchTab(category, element) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+
+            const cards = document.querySelectorAll('.tool-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Live Search Filter
+        function filterTools() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.tool-card');
+            cards.forEach(card => {
+                const title = card.dataset.title.toLowerCase();
+                if (title.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // 1. Image Editor Logic
+        let currentImg = new Image();
+        function loadEditorImage(event) {
+            const preview = document.getElementById('editorImagePreview');
+            preview.src = URL.createObjectURL(event.target.files[0]);
+            preview.style.display = 'block';
+        }
+
+        function applyFilters() {
+            const preview = document.getElementById('editorImagePreview');
+            const b = document.getElementById('brightnessSlider').value;
+            const c = document.getElementById('contrastSlider').value;
+            const g = document.getElementById('grayscaleSlider').value;
+            preview.style.filter = `brightness(${b}%) contrast(${c}%) grayscale(${g}%)`;
+        }
+
+        // 2. QR Code Generator Logic
+        function generateQR() {
+            const qrBox = document.getElementById('qrResult');
+            const input = document.getElementById('qrInput').value;
+            qrBox.innerHTML = '';
+            if (input.trim() !== '') {
+                new QRCode(qrBox, {
+                    text: input,
+                    width: 128,
+                    height: 128,
+                    colorDark : "#00f2fe",
+                    colorLight : "#0a0d14"
+                });
+            }
+        }
+
+        // 3. Text to Speech Logic
+        function speakText() {
+            const text = document.getElementById('ttsText').value;
+            if (text.trim() !== '') {
+                const utterance = new SpeechSynthesisUtterance(text);
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // 4. Pomodoro Timer Logic
+        let timerInterval;
+        let timeLeft = 25 * 60;
+        function startPomodoro() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert("انتهى وقت التركيز! خذ قسطاً من الراحة.");
+                } else {
+                    timeLeft--;
+                    const min = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+                    const sec = (timeLeft % 60).toString().padStart(2, '0');
+                    document.getElementById('pomodoroTimer').innerText = `${min}:${sec}`;
+                }
+            }, 1000);
+        }
+
+        function resetPomodoro() {
+            clearInterval(timerInterval);
+            timeLeft = 25 * 60;
+            document.getElementById('pomodoroTimer').innerText = '25:00';
+        }
+
+        // 5. Password Generator
+        function generatePassword() {
+            const len = document.getElementById('passLength').value;
+            const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
+            let pass = "";
+            for (let i = 0; i < len; i++) {
+                pass += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('passwordResult').innerText = pass;
+        }
+
+        // 6. Text Analyzer
+        function analyzeText() {
+            const txt = document.getElementById('statsText').value.trim();
+            const words = txt ? txt.split(/\s+/).length : 0;
+            const chars = txt.length;
+            const readTime = Math.ceil(words / 200);
+            document.getElementById('statsResult').innerText = `عدد الكلمات: ${words} | الحروف: ${chars} | زمن القراءة: ${readTime} دقيقة`;
+        }
+
+        // 7. To-Do List Logic
+        function addTodo() {
+            const input = document.getElementById('todoInput');
+            if (input.value.trim() !== '') {
+                const list = document.getElementById('todoList');
+                const item = document.createElement('div');
+                item.className = 'todo-item';
+                item.innerHTML = `<span>${input.value}</span> <i class="fa-solid fa-trash" style="color:#ff4757; cursor:pointer;" onclick="this.parentElement.remove()"></i>`;
+                list.appendChild(item);
+                input.value = '';
+            }
+        }
+
+        // 8. Base64 Logic
+        function encodeBase64() {
+            const val = document.getElementById('base64Input').value;
+            document.getElementById('base64Result').innerText = btoa(unescape(encodeURIComponent(val)));
+        }
+        function decodeBase64() {
+            const val = document.getElementById('base64Input').value;
+            try {
+                document.getElementById('base64Result').innerText = decodeURIComponent(escape(atob(val)));
+            } catch (e) {
+                document.getElementById('base64Result').innerText = "كود غير صالح!";
+            }
+        }
+
+        // 9. Color Palette Generator
+        function generatePalette() {
+            const display = document.getElementById('paletteDisplay');
+            display.innerHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+                const box = document.createElement('div');
+                box.style.flex = '1';
+                box.style.backgroundColor = randomColor;
+                box.style.cursor = 'pointer';
+                box.title = `انقر للنسخ: ${randomColor}`;
+                box.onclick = () => {
+                    navigator.clipboard.writeText(randomColor);
+                    alert(`تم نسخ اللون: ${randomColor}`);
+                };
+                display.appendChild(box);
+            }
+        }
+        generatePalette();
+
+        // 10. BMI Calculator Logic
+        function calculateBMI() {
+            const w = parseFloat(document.getElementById('bmiWeight').value);
+            const h = parseFloat(document.getElementById('bmiHeight').value) / 100;
+            if (w > 0 && h > 0) {
+                const bmi = (w / (h * h)).toFixed(1);
+                let status = "";
+                if (bmi < 18.5) status = "وزن ناقص";
+                else if (bmi < 25) status = "وزن مثالي ورائع";
+                else if (bmi < 30) status = "زيادة في الوزن";
+                else status = "سمنة";
+                document.getElementById('bmiResult').innerText = `المؤشر: ${bmi} (${status})`;
+            }
+        }
+    </script>
+</body>
+</html>
